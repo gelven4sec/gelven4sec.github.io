@@ -9,42 +9,40 @@ theme: jekyll-theme-chirpy
 lang: en
 
 # Change to your timezone › https://kevinnovak.github.io/Time-Zone-Picker
-timezone:
+timezone: Europe/Paris
 
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Chirpy # the main title
+title: Gelven's Blog # the main title
 
-tagline: A text-focused Jekyll theme # it will display as the sub-title
+tagline: Security Analyst / Malware Dev
 
 description: >- # used by seo meta and the atom feed
-  A minimal, responsive and feature-rich Jekyll theme for technical writing.
+  Here I'm posting about my experiments, achievements and write-ups. Take a look if you're interested into offensive/defensive development, purple team operations, low-level engineering, or anything that brings my attention.
 
 # Fill in the protocol & hostname for your site.
 # e.g. 'https://username.github.io', note that it does not end with a '/'.
-url: ""
+url: "https://gelven4sec.github.io"
+
+author: Joakim PETTERSEN
 
 github:
-  username: github_username # change to your github username
-
-twitter:
-  username: twitter_username # change to your twitter username
+  username: gelven4sec # change to your github username
 
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: your_full_name
-  email: example@domain.com # change to your email address
+  name: Joakim PETTERSEN
+  email: jo.pettersen@proton.me # change to your email address
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/username # change to your twitter homepage
-    - https://github.com/username # change to your github homepage
+    - https://github.com/gelven4sec # change to your github homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
-    # - https://www.linkedin.com/in/username
+    - https://www.linkedin.com/in/jpettersen
 
-google_site_verification: # fill in to your verification string
+google_site_verification: xmDOTnLkj1MX5cDQQgJnbGqXbM0quWp9A1m3VZ9Ad7g
 
 # ↑ --------------------------
 # The end of `jekyll-seo-tag` settings
@@ -73,7 +71,7 @@ theme_mode: # [light|dark]
 img_cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar:
+avatar: "assets/img/avatar.jpeg"
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
