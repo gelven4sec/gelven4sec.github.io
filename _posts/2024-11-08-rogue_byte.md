@@ -5,9 +5,9 @@ categories: [MalDev]
 tags: [rust]
 ---
 
-Today I'm writing about a funny old little trick I learned about messing with disassemblers.
+Today I'm writing about a little trick I learned about messing with disassemblers.
 
-In this a `MalDev` article, we're going to demonstrate a malware technique in a practical use case, then trying to detect it.
+In this `MalDev` article, we're going to demonstrate a malware technique in a practical use case, then trying to detect it.
 
 ## What is a disassembler ?
 
@@ -53,7 +53,7 @@ This means that our `jmp`, or  any condition jump instruction like `jz`, will be
 
 But there is still a way to deceive some disassemblers, using another set of instructions to jump after the rogue byte.
 
-If you know functions works in assembly, you are surely aware of how the `ret` instruction works.
+If you know how functions works in assembly, you are must be aware of how the `ret` instruction.  
 It is used to return to the instruction following a `call`, by **jumping to the address on top of the stack**.
 So we can jump to any address by pushing our offset address on the stack and directly return.
 
@@ -158,7 +158,7 @@ objdump -D -M intel target/debug/rogue-byte
     1137:       59                      pop    rcx
     1138:       c3                      ret
 ```
-![meme](/assets/img/rogue_byte/meme.png) 
+![meme](/assets/img/rogue_byte/meme.png)  
 The call to shellcode is successfully obfuscated !
 But `objdump` uses linear sweep so it's pretty easy, now let's test with real reverse-engineering tools.
 
@@ -219,7 +219,7 @@ It is now easily reusable in any code-base, and doesn't impact Rust's safety, so
 
 ## Detection
 
-Now let's try to detect the usage of this technique, today I opt out for a Yara rule, but it would be a good idea to make a CAPA one too.
+Now let's try to detect the usage of this technique, today I opt out for a Yara rule, but it would be a good idea to make a CAPA[^capa] one too.
 
 I want my rule to detect the assembly instructions used just before the rogue byte:
 ```
@@ -238,7 +238,7 @@ e:  48 8d 0d 00 00 00 00    lea    rcx,[rip+0x0]
 1c: 48 8d 35 00 00 00 00    lea    rsi,[rip+0x0] 
 23: 48 8d 3d 00 00 00 00    lea    rdi,[rip+0x0]
 ```
-Here we see that we need to set a wildcard on the third byte as `48 8D FF 00 00 00 00` to detect the instruction with any register.  
+Here we see that we need to set a wildcard on the third byte as `48 8D ?? 00 00 00 00` to detect the instruction with any register.  
 And we are going to do the same for each instruction.
 
 For `add rax,0x7`, it's gonna look like `48 83 ?? 07`  
@@ -269,9 +269,9 @@ rule RogueByte
 
 It has been fun to toying around with this technique and implement a reusable macro in Rust.
 
-Actually, this won’t stop any decent reverse engineer, but might slow them down. And you can slow them down even more with the other variations of this. For example, there are other ways to get the current instruction position.
+Actually, this won't stop any decent reverse engineer, but might slow them down. And you can slow them down even more with the other variations of this. For example, there are other ways to get the current instruction position.
 
-I also tried to use this technique to hide a `syscall` from CAPA scanner, but that didn't work.
+I also tried to use this technique to hide a `syscall` from CAPA[^capa] scanner, but that didn't work.
 
 You can access all the code source presented here on [GitHub repo](https://github.com/gelven4sec/rogue-byte).
 
@@ -282,3 +282,7 @@ You can access all the code source presented here on [GitHub repo](https://githu
 - https://yaratoolkit.securitybreak.io/
 - https://defuse.ca/online-x86-assembler.htm
 - Hugo Bitard. (2023). Obscurcissement, Injection et Shellcode
+
+## Footnotes
+
+[^capa]: The FLARE team's open-source tool to identify capabilities in executable files.
