@@ -53,7 +53,7 @@ This means that our `jmp`, or  any condition jump instruction like `jz`, will be
 
 But there is still a way to deceive some disassemblers, using another set of instructions to jump after the rogue byte.
 
-If you know how functions works in assembly, you are must be aware of how the `ret` instruction.  
+If you know how functions works in assembly, you must be aware of the `ret` instruction.  
 It is used to return to the instruction following a `call`, by **jumping to the address on top of the stack**.
 So we can jump to any address by pushing our offset address on the stack and directly return.
 
