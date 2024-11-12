@@ -162,20 +162,20 @@ objdump -D -M intel target/debug/rogue-byte
 The call to shellcode is successfully obfuscated !
 But `objdump` uses linear sweep so it's pretty easy, now let's test with real reverse-engineering tools.
 
-Cutter (Rizin): 
+Cutter (Rizin):  
 ![cutter](/assets/img/rogue_byte/cutter.png) 
 
-IDA9 Free:
+IDA9 Free:  
 ![ida](/assets/img/rogue_byte/ida.png) 
 
-Ghidra:
+Ghidra:  
 ![ghidra](/assets/img/rogue_byte/ghidra.png) 
 
-And finally Binary Ninja:
+And finally Binary Ninja:  
 ![binary ninja](/assets/img/rogue_byte/ninja.png) 
 
-So Ghidra seems to isolate the rogue byte, but the decompiler fails to reconstruct the call to the shellcode.
-But Binary Ninja, that tool, is the only one whose automatically isolated the byte correctly !
+So Ghidra seems to isolate the rogue byte, but the decompiler fails to reconstruct the call to the shellcode.  
+And there comes Binary Ninja, the only one who automatically isolated the byte correctly !
 
 ### Weaponize
 
@@ -186,11 +186,11 @@ macro_rules! rogue_byte {
     ($byte:expr) => {
         unsafe {
             core::arch::asm!(
-                "lea r8, [rip]",           // Get next position
-                "add r8, 8",               // Offset after rogue
-                "push r8",                 // Jump after rogue
+                "lea r8, [rip]",
+                "add r8, 8",
+                "push r8",
                 "ret",
-                concat!(".byte ", $byte),   // inject rogue byte
+                concat!(".byte ", $byte),
                 options(nostack, nomem)
             )
         }
@@ -199,7 +199,7 @@ macro_rules! rogue_byte {
 ```
 This way, the user of the macro can even choose which opcode to use.
 
-In our precedent code, it will look like this:
+With our precedent code, it will look like this:
 ```rust
 ...
 #[no_mangle]
@@ -215,7 +215,7 @@ fn main() -> usize {
     return 0;
 }
 ```
-It is now easily reusable in any code-base, and doesn't impact Rust's safety, so use it as much as you want.
+It is now easily reusable in any code-base and doesn't impact Rust's safety, so use it as much as you want.
 
 ## Detection
 
@@ -271,7 +271,7 @@ It has been fun to toying around with this technique and implement a reusable ma
 
 Actually, this won't stop any decent reverse engineer, but might slow them down. And you can slow them down even more with the other variations of this. For example, there are other ways to get the current instruction position.
 
-I also tried to use this technique to hide a `syscall` from CAPA[^capa] scanner, but that didn't work.
+I tried to use this technique to hide a `syscall` from CAPA[^capa] scanner, but that didn't work.
 
 You can access all the code source presented here on [GitHub repo](https://github.com/gelven4sec/rogue-byte).
 
