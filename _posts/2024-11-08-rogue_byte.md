@@ -21,7 +21,7 @@ Here, we're only going to work with the **x86-64** CPU architecture, note that t
 
 ## Technique description
 
-The technique we are going to demonstrate has many names : "Impossible assembly" or "Assembly obfuscation", but I like to call it "Rogue byte".
+The technique we are going to demonstrate has many names : "Impossible disassembly" or "Assembly obfuscation", but I like to call it "Rogue byte".
 
 It is identified on the **Unprotect** project as : [U0211](https://unprotect.it/technique/impossible-disassembly/)
 
@@ -44,14 +44,14 @@ add rbx, 7		; offset after rogue byte
 jmp rbx			; then jump
 db 0xc8			; inject `call` opcode byte as our rogue byte
 ```
-Then the next 4 bytes of instructions will be confused as `call`'s operand, which will result into misaligning the next instructions and just print junk.
+Then the next 4 bytes of instructions will be confused as `call`'s operand, which will result into misaligning the next instructions and print junk.
 
 ### Recursive descent
 
-But descent disassemblers, are not so easily tricked and uses **recursive descent** algorithm, which is based on control flow analysis.
-This means that our `jmp`, or  any condition jump instruction like `jz`, will be interpreted to decode only the bytes that will actually be executed.
+But descent disassemblers, are not so easily tricked and uses **recursive descent** algorithm, which is based on control flow analysis.  
+This means that our `jmp`, or any condition jump instruction like `jz`, will be interpreted to decode only the bytes that will actually be executed.
 
-But there is still a way to deceive some disassemblers, using another set of instructions to jump after the rogue byte.
+But there is still a way to deceive some disassemblers, by using another set of instructions to jump after the rogue byte.
 
 If you know how functions works in assembly, you must be aware of the `ret` instruction.  
 It is used to return to the instruction following a `call`, by **jumping to the address on top of the stack**.
@@ -65,11 +65,11 @@ push rbx
 ret		; then jump
 db 0xc8		; inject `call` opcode byte as our rogue byte
 ```
-This is much better, and as a bonus it way deceives some analyst that this is the end of the function.
+This is much better, and as a bonus it way deceives some analysts that this is the end of the function.
 
 ## Code
 
-Let's get practical and finally start to code, here's a sample of a Rust program we are going to start playing with : 
+Let's get practical and finally start to code, here's a sample of a Rust program we are going to play with : 
 ```rust
 #![no_main]
 
@@ -98,7 +98,7 @@ fn main() -> usize {
 Code explications: 
 - This code simulates the execution of a malicious shellcode stored in the `.text` to make it directly executable
 - `#![no_main]` is a global macro that lets us use our own `main` function instead of the standard one, which is only used to be able to use the following macro
-- `#[no_mangle]` is another macro that prevents Rust from mangling our symbols, I only do this to help us analyse our code later
+- `#[no_mangle]` is another macro that prevents Rust from mangling our symbols, this will help us later to analyse our code
 
 Let's have a look at the disassembled version of the `main` function : 
 ```bash
@@ -273,7 +273,7 @@ Actually, this won't stop any decent reverse engineer, but might slow them down.
 
 I tried to use this technique to hide a `syscall` from CAPA[^capa] scanner, but that didn't work.
 
-You can access all the code source presented here on [GitHub repo](https://github.com/gelven4sec/rogue-byte).
+You can access all the code source presented here on this [GitHub repo](https://github.com/gelven4sec/rogue-byte).
 
 ## Credits
 - https://silviocesare.wordpress.com/2007/11/17/on-disassembling-obfuscated-assembly/
