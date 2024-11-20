@@ -23,4 +23,6 @@ I'm starting this blog to write about stuff that I like, which could be :
 
 ### Certifications
 
-![OSCP](assets/img/oscp.png){: width="150" height="150" .left }
+![OSCP](assets/img/oscp.png){: width="150" height="150" .left }  
+
+![OSWP](assets/img/oswp.png){: width="150" height="150" .left }  
