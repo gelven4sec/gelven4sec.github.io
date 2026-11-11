@@ -4,7 +4,7 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-My name is Joakim Pettersen, I'm a Security Analyst.
+Hi, my name is Joakim,
 
 I'm starting this blog to write about stuff that I like, which could be :
 - Malware development technique
@@ -14,9 +14,6 @@ I'm starting this blog to write about stuff that I like, which could be :
 - Actually anything that comes to my mind
 
 ### Projects
-
-[NotPetyaAgain](https://github.com/gelven4sec/NotPetyaAgain)
-: PoC of a UEFI Petya ransomware
 
 [Rust MalDev course](https://nu11busters.github.io/rust-maldev-course/home/)
 : Course about malware development in Rust
